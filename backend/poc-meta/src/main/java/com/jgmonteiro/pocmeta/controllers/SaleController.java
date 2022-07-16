@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,8 +19,8 @@ public class SaleController {
     private SaleService saleService;
 
     @GetMapping
-    public ResponseEntity<Page<Sale>> findSales(final Pageable pageable) {
-        final Page<Sale> sales = saleService.findSales(pageable);
+    public ResponseEntity<Page<Sale>> findSales(final Pageable pageable, @RequestParam(value = "minDate", defaultValue = "") final String minDate, @RequestParam(value = "maxDate", defaultValue = "") final String maxDate) {
+        final Page<Sale> sales = saleService.findSales(pageable, minDate, maxDate);
         return ResponseEntity.ok().body(sales);
     }
 }

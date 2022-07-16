@@ -7,14 +7,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class SaleService {
 
     @Autowired
     private SaleRepository saleRepository;
 
-    public Page<Sale> findSales(final Pageable pageable) {
-        return saleRepository.findAll(pageable);
+    public Page<Sale> findSales(final Pageable pageable, final String minDate, final String maxDate) {
+
+        final LocalDate min = LocalDate.parse(minDate);
+        final LocalDate max = LocalDate.parse(maxDate);
+
+        return saleRepository.findSales(pageable, min, max);
     }
 
 }
