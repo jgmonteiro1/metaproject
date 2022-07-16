@@ -2,6 +2,7 @@ package com.jgmonteiro.pocmeta.controllers;
 
 import com.jgmonteiro.pocmeta.entities.Sale;
 import com.jgmonteiro.pocmeta.services.SaleService;
+import com.jgmonteiro.pocmeta.services.SmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +19,18 @@ public class SaleController {
     @Autowired
     private SaleService saleService;
 
+    @Autowired
+    private SmsService smsService;
+
     @GetMapping
     public ResponseEntity<Page<Sale>> findSales(final Pageable pageable, @RequestParam(value = "minDate", defaultValue = "") final String minDate, @RequestParam(value = "maxDate", defaultValue = "") final String maxDate) {
         final Page<Sale> sales = saleService.findSales(pageable, minDate, maxDate);
         return ResponseEntity.ok().body(sales);
+    }
+
+
+    @GetMapping(value = "/notification")
+    public void notifySms(){
+        smsService.sendSms();
     }
 }
